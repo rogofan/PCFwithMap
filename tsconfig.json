@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
+  "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types"
+      // "./PCFReactDemo/generated/styles.d.ts"
+    ],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "jsx": "react"
+  }
+}
