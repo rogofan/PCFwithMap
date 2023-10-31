@@ -61,9 +61,7 @@ export const WeatherForecast = () => {
       setCityName("");
     }
   };
-  if (data) {
-    console.log(data[0].weather[0].id);
-  }
+
   return (
     <>
       <div
