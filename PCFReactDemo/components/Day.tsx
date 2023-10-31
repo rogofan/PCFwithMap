@@ -4,11 +4,7 @@ import { DayProps, weatherConfig, WeatherType } from "../data/types";
 import {
   PartlyCloudyDayIcon,
   RainIcon,
-  RainSnowIcon,
-  RainShowersDayIcon,
   SnowIcon,
-  SnowShowerDayIcon,
-  SnowflakeIcon,
   SunnyIcon,
   ThunderstormsIcon,
   FogIcon,
@@ -35,7 +31,7 @@ const Day: React.FC<DayProps> = ({ data }) => {
 
     return `${day}.${month}.${year}`;
   }
-
+  //prohledávání weatherConfig
   function mapToWeatherType(id: number): WeatherType | null {
     for (const config of weatherConfig) {
       if (config.range) {
@@ -48,10 +44,9 @@ const Day: React.FC<DayProps> = ({ data }) => {
     return null;
   }
 
-  //Switch na
+  //Switch na ikony počasí
   function renderWeatherIcon(id: number) {
     const prefix = mapToWeatherType(data.weather[0].id); // Get the first digit
-    console.log(prefix);
     switch (prefix) {
       case WeatherType.THUNDER:
         return <ThunderstormsIcon />;
@@ -71,6 +66,7 @@ const Day: React.FC<DayProps> = ({ data }) => {
         return <ErrorIcon />; // default case if no match
     }
   }
+
   const dayBorderStyle = {
     border: "1px solid black",
     paddingLeft: 0,
@@ -84,12 +80,14 @@ const Day: React.FC<DayProps> = ({ data }) => {
 
   return (
     // <div className={style.dayBorder}>
-    <div style={dayBorderStyle}>
+    <div style={{ border: "1 solid black" }}>
       <>
         <h2>{getDayOfWeek(formatDate(data.dt_txt), "cs-CZ")}</h2>
         <p>{formatDate(data.dt_txt)}</p>
-        <div style={iconStyle}>{renderWeatherIcon(data.weather[0].id)}</div>
-        <p> {`${data.main.temp.toFixed(1).replace(".", ",")} °C`}</p>
+        <div style={{ fontSize: 50 }}>
+          {renderWeatherIcon(data.weather[0].id)}
+        </div>
+        <p> {`${data.main.temp.toFixed(0)} °C`}</p>
         <p>{data.weather[0].description}</p>
       </>
     </div>

@@ -9,15 +9,19 @@ import {
   IWeatherData,
   IWeatherDataHeader,
 } from "../data/types";
+import { TextField } from "@fluentui/react/lib/TextField";
 import axios from "axios";
 
 export const WeatherForecast = () => {
   const [data, setData] = useState<IWeatherData[] | null>(null);
   const [dataGeo, setDataGeo] = useState<IWeatherDataHeader | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const city = "rome"; // You can change this if needed
+  const [cityName, setCityName] = useState<string>("");
+  const [cityNameM, setCityNameM] = useState<string>("");
+  const city = cityNameM || "Praha"; // You can change this if needed
   const apiKey = "61c7a2fcaa6de933b65c654e8dee7798";
 
+  //fetch for forecast
   useEffect(() => {
     const fetchWeatherData = async () => {
       setLoading(true);
@@ -25,11 +29,11 @@ export const WeatherForecast = () => {
         const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&lang=cz&appid=${apiKey}&units=metric`;
         // const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
         const response = await axios.get<WeatherAPIResponse>(endpoint);
-
         const filteredData = response.data.list.filter((entry) =>
-          entry.dt_txt.endsWith("09:00:00")
+          entry.dt_txt.endsWith("12:00:00")
         );
 
+        setDataGeo(response.data.city);
         setData(filteredData);
         setLoading(false);
       } catch (error) {
@@ -39,47 +43,65 @@ export const WeatherForecast = () => {
     };
 
     fetchWeatherData();
-  }, []);
+  }, [apiKey, city]);
 
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=prague&appid=61c7a2fcaa6de933b65c654e8dee7798`;
-        // const endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
-        const response = await axios.get(endpoint);
-
-        setDataGeo(response.data);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-      }
-    };
-
-    fetchWeatherData();
-  }, []);
-
-  // if (data) {
-  //   console.log(data);
-  // }
-
-  if (dataGeo) {
-    console.log(dataGeo);
-  }
-
-  const containerStyle = {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    marginBottom: "60px",
+  const handleCityNameChange = (
+    event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+    newValue?: string
+  ) => {
+    setCityName(newValue || "");
   };
 
-  const boldTextStyle = {
-    fontWeight: "bold",
+  const enterHitHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Check if the key pressed is the Enter key
+    if (event.key === "Enter") {
+      // Prevent the default action to avoid submitting the form if the text field is within a form
+      event.preventDefault();
+      // Set cityNameM to the current value of cityName
+      setCityNameM(cityName);
+      // Additional logic for when Enter is pressed can go here
+    }
   };
+
+  // const containerStyle = {
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   gap: "20px",
+  //   marginBottom: "60px",
+  // };
+
+  // console.log(cityName);
+  // console.log(cityNameM + " ok");
 
   return (
     <>
-      <h1 style={boldTextStyle}>Weather forecast app</h1>
-      <div style={containerStyle}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <h1 style={{ display: "flex", flex: 1, justifyContent: "center" }}>
+          Weather forecast app
+        </h1>
+        <TextField
+          // label="With placeholder"
+          placeholder="Please enter citi name here"
+          value={cityName}
+          onChange={handleCityNameChange}
+          onKeyDown={enterHitHandler}
+          style={{ display: "flex", flex: 1, justifyContent: "flex-end" }}
+        />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 20,
+          marginBottom: 60,
+        }}
+      >
         {loading ? (
           <div>Loading...</div>
         ) : (
@@ -88,8 +110,15 @@ export const WeatherForecast = () => {
             .map((dayData, index) => <Day key={index} data={dayData} />)
         )}
       </div>
-      <h3>název města</h3>
-      <Map latitude={50.2000731} longitude={15.8412544} />
+
+      {loading ? (
+        <div>Loading map...</div> // Provide a loading state for the map
+      ) : (
+        <div>
+          <h2>{dataGeo?.name}</h2>
+          <Map latitude={dataGeo?.coord.lat} longitude={dataGeo?.coord.lon} />
+        </div>
+      )}
     </>
   );
 };

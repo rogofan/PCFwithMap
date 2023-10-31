@@ -37,7 +37,7 @@ export type IWeatherData = {
 };
 
 export type IWeatherDataHeader = {
-  coords: {
+  coord: {
     lat: number;
     lon: number;
   };
@@ -52,6 +52,7 @@ export type IWeatherDataHeader = {
 
 export type WeatherAPIResponse = {
   list: IWeatherData[];
+  city: IWeatherDataHeader;
 };
 
 export interface DayProps {
