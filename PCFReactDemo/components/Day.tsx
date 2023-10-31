@@ -67,20 +67,16 @@ const Day: React.FC<DayProps> = ({ data }) => {
     }
   }
 
-  const dayBorderStyle = {
-    border: "1px solid black",
-    paddingLeft: 0,
-    paddingRight: 0,
-    width: "160px",
-  };
-
-  const iconStyle = {
-    fontSize: "50px",
-  };
-
   return (
     // <div className={style.dayBorder}>
-    <div style={{ border: "1 solid black" }}>
+    <div
+      style={{
+        border: "1px solid black",
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: "160px",
+      }}
+    >
       <>
         <h2>{getDayOfWeek(formatDate(data.dt_txt), "cs-CZ")}</h2>
         <p>{formatDate(data.dt_txt)}</p>

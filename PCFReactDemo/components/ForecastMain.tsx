@@ -1,5 +1,3 @@
-// link na icony: https://developer.microsoft.com/en-us/fluentui#/controls/web/icon
-
 import React, { useState, useEffect } from "react";
 import style from "./ForecastMain.module.css";
 import Day from "./Day";
@@ -59,40 +57,34 @@ export const WeatherForecast = () => {
       event.preventDefault();
       // Set cityNameM to the current value of cityName
       setCityNameM(cityName);
-      // Additional logic for when Enter is pressed can go here
+      // Reset value after enter
+      setCityName("");
     }
   };
-
-  // const containerStyle = {
-  //   display: "flex",
-  //   justifyContent: "center",
-  //   gap: "20px",
-  //   marginBottom: "60px",
-  // };
-
-  // console.log(cityName);
-  // console.log(cityNameM + " ok");
 
   return (
     <>
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr 1fr",
           alignItems: "center",
-          justifyContent: "space-between",
         }}
       >
-        <h1 style={{ display: "flex", flex: 1, justifyContent: "center" }}>
-          Weather forecast app
-        </h1>
-        <TextField
-          // label="With placeholder"
-          placeholder="Please enter citi name here"
-          value={cityName}
-          onChange={handleCityNameChange}
-          onKeyDown={enterHitHandler}
-          style={{ display: "flex", flex: 1, justifyContent: "flex-end" }}
-        />
+        <div></div>
+        <h1>Weather forecast app</h1>
+        <div
+          style={{
+            maxWidth: "175px",
+          }}
+        >
+          <TextField
+            placeholder="Vložte název města..."
+            value={cityName}
+            onChange={handleCityNameChange}
+            onKeyDown={enterHitHandler}
+          />
+        </div>
       </div>
       <div
         style={{
@@ -112,7 +104,7 @@ export const WeatherForecast = () => {
       </div>
 
       {loading ? (
-        <div>Loading map...</div> // Provide a loading state for the map
+        <div>Loading map...</div>
       ) : (
         <div>
           <h2>{dataGeo?.name}</h2>
