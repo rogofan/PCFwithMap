@@ -9,6 +9,7 @@ import {
   ThunderstormsIcon,
   FogIcon,
   ErrorIcon,
+  CloudyIcon,
 } from "@fluentui/react-icons-mdl2";
 
 const Day: React.FC<DayProps> = ({ data }) => {
@@ -62,6 +63,8 @@ const Day: React.FC<DayProps> = ({ data }) => {
         return <SunnyIcon />;
       case WeatherType.CLOUDY:
         return <PartlyCloudyDayIcon />;
+      case WeatherType.CLOUDS:
+        return <CloudyIcon />;
       default:
         return <ErrorIcon />; // default case if no match
     }

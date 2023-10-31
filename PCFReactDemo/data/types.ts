@@ -67,6 +67,7 @@ export enum WeatherType {
   FOG = 700,
   SUNNY = 800,
   CLOUDY = 801,
+  CLOUDS = 802,
 }
 
 export const weatherConfig = [
@@ -76,5 +77,6 @@ export const weatherConfig = [
   { type: WeatherType.SNOW, range: [600, 699] },
   { type: WeatherType.FOG, range: [700, 799] },
   { type: WeatherType.SUNNY, codes: [800] },
-  { type: WeatherType.CLOUDY, range: [801, 804] },
+  { type: WeatherType.CLOUDY, codes: [801, 802] },
+  { type: WeatherType.CLOUDS, range: [803, 804] },
 ];
