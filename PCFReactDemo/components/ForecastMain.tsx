@@ -14,6 +14,7 @@ export const WeatherForecast = () => {
   const [data, setData] = useState<IWeatherData[] | null>(null);
   const [dataGeo, setDataGeo] = useState<IWeatherDataHeader | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [errInput, setErrInput] = useState<boolean>(false);
   const [cityName, setCityName] = useState<string>("");
   const [cityNameM, setCityNameM] = useState<string>("");
   const city = cityNameM || "Praha"; // You can change this if needed
@@ -36,11 +37,13 @@ export const WeatherForecast = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching weather data:", error);
+        setErrInput(true);
         setLoading(false);
       }
     };
 
     fetchWeatherData();
+    setErrInput(false);
   }, [apiKey, city]);
 
   const handleCityNameChange = (
@@ -105,6 +108,8 @@ export const WeatherForecast = () => {
 
       {loading ? (
         <div>Loading map...</div>
+      ) : errInput ? (
+        <h2>Prosím vložte správný název města!</h2>
       ) : (
         <div>
           <h2>{dataGeo?.name}</h2>

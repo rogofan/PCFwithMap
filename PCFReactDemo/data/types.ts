@@ -77,6 +77,6 @@ export const weatherConfig = [
   { type: WeatherType.SNOW, range: [600, 699] },
   { type: WeatherType.FOG, range: [700, 799] },
   { type: WeatherType.SUNNY, codes: [800] },
-  { type: WeatherType.CLOUDY, codes: [801, 802] },
+  { type: WeatherType.CLOUDY, range: [801, 802] },
   { type: WeatherType.CLOUDS, range: [803, 804] },
 ];

@@ -8,15 +8,7 @@ interface MapProps {
 const apiKey = "AIzaSyB32qjwfBF4n_OVQtrzFkhZOHcXzbMzuqw";
 
 const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
-  if (typeof latitude === "undefined" || typeof longitude === "undefined") {
-    return <div>Map coordinates not available.</div>;
-  }
-
   const mapUrl = `https://www.google.com/maps/embed/v1/view?key=${apiKey}&center=${latitude},${longitude}&zoom=13`;
-
-  const position = {
-    border: 0,
-  };
 
   return (
     <iframe
@@ -24,7 +16,7 @@ const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
       width="100%"
       height="450"
       src={mapUrl}
-      style={position}
+      style={{ border: 0 }}
     />
   );
 };
